@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// A fighter. It's a subclass of Target. It holds the fighter's parameters, current state and
+/// perform movement, fire and enemy scanning logics.
+/// </summary>
+[RequireComponent(typeof(Rigidbody))]
 public class Fighter : Target 
 {
 	public string fighterName;
@@ -38,10 +43,12 @@ public class Fighter : Target
 	// Update is called once per frame
 	void Update () 
 	{
+		// If no current target exists, checks for enemies within range
 		if (currentTarget == null)
 		{
 			currentTarget = CheckForEnemies();
 		}
+		// If a target is found, shoot at it according to its rate of fire
 		if (currentTarget != null)
 		{
 			FaceOpponent();
@@ -51,7 +58,7 @@ public class Fighter : Target
 				Fire();
 			}
 		}
-		else
+		else // Otherwise, move towards the enemy base
 		{
 			MoveForward();
 		}
@@ -68,7 +75,7 @@ public class Fighter : Target
 		transform.rotation = moveRotation;
 		rb.velocity = transform.forward * speed;
 	}
-		
+
 	Target CheckForEnemies()
 	{
 		Collider[] targetColliders = Physics.OverlapSphere(transform.position, range);
@@ -85,12 +92,23 @@ public class Fighter : Target
 
 	void Fire ()
 	{
-		GameObject shotInstance = Instantiate(shot, shotSpawn.position, shotSpawn.rotation) as GameObject;
-		shotInstance.transform.localScale = transform.localScale;
-		Projectile projectileScript = shotInstance.GetComponent<Projectile>();
-		projectileScript.damage = projectileDamage;
-		projectileScript.speed = projectileSpeed;
-		projectileScript.owner = owner;
-		fireSFX.Play();
+		if (shot != null && shotSpawn != null) 
+		{
+			GameObject shotInstance = Instantiate(shot, shotSpawn.position, shotSpawn.rotation) as GameObject;
+			shotInstance.transform.localScale = transform.localScale;
+
+			Projectile projectileScript = shotInstance.GetComponent<Projectile>();
+			if (projectileScript != null) 
+			{
+				projectileScript.damage = projectileDamage;
+				projectileScript.speed = projectileSpeed;
+				projectileScript.owner = owner;
+			}
+		}
+
+		if (fireSFX != null) 
+		{
+			fireSFX.Play();
+		}
 	}
 }

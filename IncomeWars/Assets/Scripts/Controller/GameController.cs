@@ -4,6 +4,9 @@ using System.Collections;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
 
+/// <summary>
+/// This controller handles player input, high level game logic (income) and game over feedback
+/// </summary>
 public class GameController : MonoBehaviour 
 {
 	public float incomeTimeInterval;
@@ -25,10 +28,12 @@ public class GameController : MonoBehaviour
 
 	public Text gameOverText;
 
-	// Use this for initialization
 	void Start () 
 	{
-		gameOverText.text = "";
+		if (gameOverText != null) 
+		{
+			gameOverText.text = "";
+		}
 		InvokeRepeating("SendIncome", incomeTimeInterval, incomeTimeInterval);
 	}
 
@@ -36,12 +41,19 @@ public class GameController : MonoBehaviour
 	{
 		if (isRunning)
 		{
-			leftBase.owner.money += leftBase.owner.income;
-			rightBase.owner.money += rightBase.owner.income;
+			if (leftBase != null) 
+			{
+				leftBase.owner.money += leftBase.owner.income;
+				leftBase.UpdateHUD ();
+			}
+			if (rightBase != null) 
+			{
+				rightBase.owner.money += rightBase.owner.income;
+				rightBase.UpdateHUD ();
+			}
 		}
 	}
-	
-	// Update is called once per frame
+
 	void Update ()
 	{
 		Base currentBase = null;
@@ -101,10 +113,14 @@ public class GameController : MonoBehaviour
 		if (toBeInstatiated != null && currentBase != null)
 		{
 			Fighter prefabFighter = toBeInstatiated.GetComponent<Fighter>();
-			if (currentBase.owner.money >= prefabFighter.price)
+			if (prefabFighter != null && currentBase.owner.money >= prefabFighter.price)
 			{
-				currentBase.BuyFighter(prefabFighter);
+				// Purchase the fighter
+				currentBase.owner.money -= prefabFighter.price;
+				currentBase.owner.income += prefabFighter.incomeIncrease;
+				currentBase.UpdateHUD ();
 
+				// Spawn the fighter
 				Vector3 position;
 				Quaternion rotation;
 				if (currentBase == leftBase)
@@ -119,6 +135,7 @@ public class GameController : MonoBehaviour
 				}
 				GameObject fighter = Instantiate(toBeInstatiated, position, rotation) as GameObject;
 				Fighter fighterScript = fighter.GetComponent<Fighter>();
+				Debug.Assert (fighterScript != null);
 				fighterScript.owner = currentBase.owner;
 			}
 		}
