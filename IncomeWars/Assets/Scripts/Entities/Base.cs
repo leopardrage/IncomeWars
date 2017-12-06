@@ -38,7 +38,7 @@ public class Base : Target
 
 	protected override void Loss(int loss)
 	{
-		if (gameController != null && gameController.isRunning) 
+		if (gameController != null && gameController.gameState == GameController.GameState.ACTIVE) 
 		{
 			base.Loss(loss);
 		}
