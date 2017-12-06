@@ -15,10 +15,14 @@ public class Base : Target
 	public Text incomeText;
 	public Text moneyText;
 
+	public ParticleSystem smoke;
+	public ParticleSystem sparks;
+
 	void Start () 
 	{ 
 		owner = editorOwner;
 		UpdateHUD();
+		UpdateDamageFX ();
 	}
 
 	public void UpdateHUD()
@@ -41,8 +45,7 @@ public class Base : Target
 		if (gameController != null && gameController.gameState == GameController.GameState.ACTIVE) 
 		{
 			base.Loss(loss);
-			float damage = 1.0f - (float)currentHP / (float)maxHP;
-			targetRenderer.material.SetFloat ("_DamageAmount", damage);
+			UpdateDamageFX ();
 		}
 		UpdateHUD();
 	}
@@ -52,6 +55,22 @@ public class Base : Target
 		if (gameController != null) 
 		{
 			gameController.GameOver(owner);
+		}
+	}
+
+	private void UpdateDamageFX()
+	{
+		float damage = 1.0f - (float)currentHP / (float)maxHP;
+		targetRenderer.material.SetFloat ("_DamageAmount", damage);
+		if (smoke != null) 
+		{
+			var emission = smoke.emission;
+			emission.rateOverTime = damage * 6.0f;
+		}
+		if (sparks != null) 
+		{
+			var emission = sparks.emission;
+			emission.rateOverTime = damage * 6.0f;
 		}
 	}
 }
