@@ -41,6 +41,8 @@ public class Base : Target
 		if (gameController != null && gameController.gameState == GameController.GameState.ACTIVE) 
 		{
 			base.Loss(loss);
+			float damage = 1.0f - (float)currentHP / (float)maxHP;
+			targetRenderer.material.SetFloat ("_DamageAmount", damage);
 		}
 		UpdateHUD();
 	}
