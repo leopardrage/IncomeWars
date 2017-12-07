@@ -1,6 +1,6 @@
 # IncomeWars
 
-Income Wars è un semplice gioco di strategia multiplayer (locale) per due giocatori. Il progretto è stato sviluppato con Unity3D.
+Income Wars è un semplice gioco di strategia multiplayer (locale) per due giocatori. Il progretto è stato sviluppato con Unity3D 2017.2.0f3.
 
 ## Regole
 
