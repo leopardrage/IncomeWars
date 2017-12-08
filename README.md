@@ -1,18 +1,20 @@
 # IncomeWars
 
-Income Wars è un semplice gioco di strategia multiplayer (locale) per due giocatori. Il progretto è stato sviluppato con Unity3D 2017.2.0f3.
+*Read this in other languages: [English](README.md), [Italiano](README.it.md)*
 
-## Regole
+Income Wars is a simple local multiplayer strategy game for two players. This project has been developed with Unity3D 2017.2.0f3.
 
-Ogni giocatore deve proteggere la propria base e cercare allo stesso tempo di distruggere quella avversaria.
-Per raggiungere lo scopo, il giocatore dovrà inviare ondate di caccia che partiranno automaticamente dalla propria base verso quella nemica.
-Per inviare caccia, il giocatore di sinistra (verde) ha a disposizione i tasti **Q**, **W**, **E**, **R**, **T**. Il giocatore di destra (rosso) i tasti **Y**, **U**, **I**, **O**, **P**.
-Ogni caccia attaccherà eventuali caccia nemici che avrà a portata di tiro, così come, ovviamente, la base nemica.
+## Rules
 
-Inviare caccia, tuttavia, ha un costo, indicato nella corrispondente icona, che verrà sottratto dal denaro del giocatore al momento dell'acquisto.
-Ogni 5 secondi, il denaro verrà incrementato del valore dell'**income** del giocatore (da qui il nome del gioco), che a sua volta potrà essere aumentato con l'acquisto di caccia.
-L'HUD del gioco presenta i dati relativi ad ogni unità: costo, aumento dell'income e tasto da premere per l'acquisto.
+Both players must defend their base while destroying the enemy's.
+To achieve this goal, each player needs to send waves of fighters that will spawn near his base and fly automatically towards the opponent's base.
+To send fighters, the left (green) player can use **Q**, **W**, **E**, **R**, **T** keys. The right (red) player can use **Y**, **U**, **I**, **O**, **P**.
+Every fighter will attack nearby enemy fighters as well as the enemy base, if within range.
 
-## Note tecniche:
-1. Il danno visibile sulle basi è stato realizzato con un semplice **surface shader** che visualizza progressivamente una texture di "crettatura" in base al danno subito.
-2. Le icone sono state realizzate tramite **rendertexture**, ciascuna renderizzata da una telecamera dedicata. L'idea è ovviamente ottimizzabile, ma è un modo pratico per avere un'icona che si aggiorna automaticamente, qualora il prefab dei caccia cambiasse.
+However, sending fighters has a cost which will be subtracted by the player's money upon purchasing.
+Every 5 seconds, both players' money will be increased by the **income** value (here's where the game's title come from). This income will be increased every time a fighter is purchased.
+The HUD shows every fighters' stats (cost, income increment and key to purchase) as well as the players' stats (money, income, base's Health Points).
+
+## Technical notes:
+1. The progressive red crack on the bases that increases over damage has been made with a simple **surface shader**, which shows additively part of a "crack" texture based on damage.
+2. The HUD icons have been made with **rendertextures**, each rendered by a dedicated camera. The idea can be optimized, but it is a practical way to have the icons update automatically if the corresponding fighter prefab change.
